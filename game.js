@@ -30,17 +30,11 @@ const CTX = GAME_CANVAS.getContext("2d");
 let WIDTH = GAME_CANVAS.width;
 let HEIGHT = GAME_CANVAS.height;
 
-
 let horseWidth = WIDTH / 8;
 let horseHeight = WIDTH / 8;
 
-
-
-
-
 // state tracking
 const gameState = "running";  // this should probably be an enum later
-
 const horses = [];
 
 
@@ -79,6 +73,8 @@ function runRace(ctx,bg_ctx){
     const y = HEIGHT / 2;
 
     const lane_1_height = HEIGHT - (horseHeight * 1.25);
+    //todo- change these sway varibles to be "trot" objects, or something, at put it in a horse object, so we can reuse these better
+    // horse 1 & 2 are hilarious, horse 3&4 are more normal paced
     const horse_1_sway = Math.sin(framecount) * 10;
     const horse_1_X_sway = Math.cos(framecount/3) * 10;
 
@@ -108,11 +104,11 @@ function initHorses() {
     console.log("initHorses");
     for (let i =0; i < 4; i ++ ){
         const horse_image = new Image();
-        horse_image.src = horse_image_array[i]; // todo - change to grab random horse image
+        horse_image.src = horse_image_array[i]; // todo - change to grab random horse
         horse_image.onload = function() {
             const horse = {
                 image: horse_image
-                // todo - Draw the rest of the fucking owl
+                // todo - other horse things.
             }
             horses.push(horse);
             console.log("horseImagePushed");
