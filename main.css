@@ -1,0 +1,30 @@
+
+html, body{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#gamecanvas{
+    z-index: 200;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*display: block;*/
+    /*margin: auto;*/
+    /*border: 5px solid black;*/
+    height: 100%;
+    width: 100%;
+}
+
+#bgcanvas{
+    z-index: 10;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    /*display: block;*/
+    /*margin: auto;*/
+    /*border: 5px solid black;*/
+    height: 100%;
+    width: 100%;
+}
