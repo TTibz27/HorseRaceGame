@@ -1,9 +1,11 @@
 
 const fencePostGap = 200;
 let fenceOffset = fencePostGap;
+let finishLinePosition = -1000;
+const finishLineSpeed = 7;
+let finishLineDrawn = false;
 
-
-function drawRaceBackground(ctx, width, height, horseSize){
+function drawRaceBackground(ctx, width, height, horseSize, cyclesRemaining, isMoving){
 
     // Create gradient
     const grd = ctx.createRadialGradient( width /2, height/2, 0.000, width/2, height/2, width/2);
@@ -16,20 +18,34 @@ function drawRaceBackground(ctx, width, height, horseSize){
     ctx.fillStyle = grd;
     ctx.fillRect(0, 0, width, height);
 
-
+    // Draw Track
     ctx.fillStyle = '#CD853F';
     ctx.fillRect(0, height - (2 * horseSize) , width, height);
+
+    // Draw Distance left, or draw finishline
+    if (isMoving) {
+        if (cyclesRemaining > 0) {
+            drawRemainingDistance(ctx, width, horseSize, cyclesRemaining);
+        }
+        else {
+            if (!finishLineDrawn) {
+                finishLineDrawn = true;
+                finishLinePosition = width;
+            }
+            drawFinishLine(ctx, horseSize, height);
+            finishLinePosition -= finishLineSpeed;
+        }
+    }
+
+    // Draw grass
     ctx.fillStyle = '#32CD32';
     ctx.fillRect(0, height - (2.4 * horseSize) , width, horseSize/2);
 
-    const fenceline = ( height - (2 * horseSize));
-
-    drawGuides(ctx, width, height, horseSize, fenceline);
-    drawFence(ctx, width, fenceline, horseSize );
-
+    drawGuides(ctx, width, height, horseSize);
+    drawFence(ctx, width, ( height - (2 * horseSize)) , horseSize, isMoving);
 }
 
-function drawGuides(ctx, width, height, horseSize, fenceline){
+function drawGuides(ctx, width, height, horseSize){
 
     ctx.fillStyle = "#000000";
     ctx.beginPath();
@@ -49,7 +65,7 @@ function drawGuides(ctx, width, height, horseSize, fenceline){
 
 }
 
-function drawFence(ctx, width, fenceline, horseSize) {
+function drawFence(ctx, width, fenceline, horseSize, isMoving) {
 
     ctx.fillStyle = '#322e1b';
 
@@ -68,6 +84,35 @@ function drawFence(ctx, width, fenceline, horseSize) {
     ctx.lineTo(width, postTop);
     ctx.stroke();
 
-    fenceOffset -=5;
+    if(isMoving){
+        fenceOffset -=5;
+    }
     if (fenceOffset < 0) { fenceOffset = fencePostGap};
+}
+
+
+function drawRemainingDistance(ctx, width, horseSize, cyclesRemaining){
+    const remainingString = (cyclesRemaining /10).toFixed(1) + " Yards Remaining";
+    ctx.fillStyle = "#000000";
+    ctx.font = "30px Arial";
+    ctx.fillText(remainingString, (width / 2) - 150, (horseSize / 2));
+}
+
+function drawCountdown(ctx, width, height, horseSize, seconds){
+
+    console.log("draw countdown");
+    drawRaceBackground(ctx,width,height,horseSize, 0, false);
+
+    ctx.fillStyle = "#000000";
+    ctx.font = "120px Arial";
+
+    ctx.fillText(seconds, (width / 2) - 50, (horseSize ));
+
+}
+
+function drawFinishLine(ctx, horseSize, height){
+
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(finishLinePosition, height - (2 * horseSize) , 8 , height);
+
 }
