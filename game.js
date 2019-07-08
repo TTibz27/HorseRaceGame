@@ -90,26 +90,28 @@ function runRace(ctx,bg_ctx){
     //todo- change these sway varibles to be "trot" objects, or something, at put it in a horse object, so we can reuse these better
     // horse 1 & 2 are hilarious, horse 3&4 are more normal paced
     const horse_1_sway = Math.sin(cyclesRemaining) * 10;
-    const horse_1_X_sway = Math.cos(cyclesRemaining/3) * 10;
+
 
     const lane_2_height = HEIGHT - (horseHeight * 1.75);
     const horse_2_sway = Math.cos(cyclesRemaining) * 10;
-    const horse_2_X_sway = Math.sin(cyclesRemaining/3) * 10;
+
 
     const lane_3_height = HEIGHT - (horseHeight * 2.25);
     const horse_3_sway = Math.sin(cyclesRemaining/2) * 10;
-    const horse_3_X_sway = Math.cos(cyclesRemaining/4) * 10;
+
 
     const lane_4_height = HEIGHT - (horseHeight * 2.75);
     const horse_4_sway = Math.cos(cyclesRemaining/2) * 10;
-    const horse_4_X_sway = Math.sin(cyclesRemaining/4) * 10;
 
 
-    horses[3].x = horse_4_X_sway;
-    horses[2].x = horse_3_X_sway;
-    horses[1].x = horse_2_X_sway;
-    horses[0].x = horse_1_X_sway;
 
+    updateHorsePositions();
+
+    // horses[3].x = horse_4_X_sway;
+    // horses[2].x = horse_3_X_sway;
+    // horses[1].x = horse_2_X_sway;
+    // horses[0].x = horse_1_X_sway;
+    //
 
     // draw horses
     ctx.drawImage(horses[3].image, horses[3].x , (lane_4_height + horse_4_sway) , horseWidth, horseHeight);
@@ -160,8 +162,15 @@ function initHorses() {
                 image: horse_image,
                 x:0,
                 y:0,
-                place: null
-                // todo - other horse things.
+                currentSpeed: null,
+                currentDestination:null,
+                place: null,
+                changePositionCycles:[
+                    Math.floor(Math.random() * (100)) + 700, // should be between 700 and 800
+                    Math.floor(Math.random() * (100)) + 450, // shuld be between 450 and 550
+                    Math.floor(Math.random() * (100)) + 200, //between 200 - 300
+                ]
+
             };
             horses.push(horse);
         }
@@ -190,3 +199,53 @@ function startCountdown(seconds, bg_ctx){
         gameState = "running";
     }
 }
+
+
+function updateHorsePositions(){
+
+    for (let i = 0; i < horses.length; i++) {
+        const horse = horses[i];
+
+        // update to current destination
+        if (horse.currentDestination === null){
+            horse.currentDestination = Math.floor(Math.random() * (WIDTH - horseWidth));
+        }
+
+        if (horse.currentSpeed === null){
+           horse.currentSpeed=  Math.floor(Math.random() * 5) + 3;
+        }
+
+        if (horse.x > horse.currentDestination + 5 ){
+            horse.x -= horse.currentSpeed / 2;
+        }
+        else if (horse.x < horse.currentDestination - 5){
+            horse.x += horse.currentSpeed;
+        }
+
+        //add x sway
+        horse.x += swayPatternFunctions[i].x(cyclesRemaining);
+
+        // blow away destination if horse has hit its reset point
+        for (let i =0; i < horse.changePositionCycles.length; i ++){
+            if (cyclesRemaining === horse.changePositionCycles[i]){
+                horse.currentDestination = null;
+                horse.currentSpeed = null;
+            }
+        }
+
+        //last second reset for giggles!
+        if(cyclesRemaining === 50 ){
+            horse.currentDestination = null;
+            horse.currentSpeed = null;
+        }
+    }
+
+}
+
+
+swayPatternFunctions = [
+    {x:(cycle)=>{ return Math.cos(cycle/3) * 10;}, y:(cycle)=>{return Math.sin(cycle) * 10} },
+    {x:(cycle)=>{ return Math.sin(cycle/3) * 10;}, y:(cycle)=>{ return Math.cos(cycle) * 10;}},
+    {x:(cycle)=>{ return Math.cos(cycle/4) * 10;}, y:(cycle)=>{ return Math.sin(cycle/2) * 10}},
+    {x:(cycle)=>{ return Math.sin(cycle/4) * 10;}, y:(cycle)=>{ return Math.cos(cycle/2) * 10}}
+    ];
