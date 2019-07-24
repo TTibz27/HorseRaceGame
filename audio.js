@@ -97,6 +97,27 @@ const gallops = [
 
 ];
 
+const fanfare = [
+    new Howl({
+        src:['resources/audio/fanfare/100422__robinhood76__01851-cartoon-fanfare.wav'],
+    }),
+    new Howl({
+        src:['resources/audio/fanfare/198874__bone666138__fanfare.wav'],
+    }),
+    new Howl({
+        src:['resources/audio/fanfare/321937__pel2na__two-kazoo-fanfare.wav'],
+    }),
+    new Howl({
+        src:['resources/audio/fanfare/413204__joepayne__clean-trumpet-fanfare-with-wobble.mp3'],
+    }),
+    new Howl({
+        src:['resources/audio/fanfare/418526__audeption__fasching-fanfare-karnevals-tusch-tataa-long.wav'],
+    }),
+    new Howl({
+        src:['resources/audio/fanfare/470083__sheyvan__music-orchestral-victory-fanfare.wav'],
+    }),
+];
+
 
 function playRandomNeigh(){
     const index = Math.floor(Math.random() * effects.length);
@@ -149,4 +170,9 @@ function stopGallop(){
     gallops[0].stop();
     gallops[1].stop();
 
+}
+
+function playFanfare(){
+    const index = Math.floor(Math.random() * fanfare.length);
+    fanfare[index].play();
 }

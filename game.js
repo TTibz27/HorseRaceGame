@@ -76,6 +76,10 @@ function gameLoop(){
             screenReset();
             runRace(CTX,BG_CTX);
             break;
+
+        case "finished":
+            CTX.clearRect(0, 0, WIDTH, HEIGHT);
+            drawResults(BG_CTX, WIDTH, HEIGHT, horseHeight, finalPlaces);
         default:
             break;
     }
@@ -192,6 +196,7 @@ function runRace(ctx,bg_ctx){
         if (finalPlaces.length === 4){
             gameState = "finished";
             stopGallop();
+            playFanfare();
         }
         finishLineScan -= finishLineSpeed;
     }

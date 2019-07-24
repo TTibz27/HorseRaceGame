@@ -128,3 +128,29 @@ function drawHorseNamesinLane(ctx,horse, lane, horseSize, height) {
 
     ctx.fillText(horse.name, horseSize, height - (lane * (horseSize / 2 )) -20);
 }
+
+function drawResults(ctx, width, height, horseSize, finalPlaces){
+    drawRaceBackground(ctx,width,height,horseSize, 0, false);
+    // draw rectangle
+    ctx.fillStyle = '#dddddd';
+    ctx.fillRect(horseSize*2, height - (.5 * horseSize) , (horseSize *4), - (horseSize * 3));
+
+    ctx.fillStyle = '#9999FF';
+    ctx.fillRect(horseSize*2 + 3, height - (.5 * horseSize) -3  , (horseSize *4) -6, - (horseSize * 3) + 6 );
+
+
+    const first = "1ST - " + finalPlaces[0].name;
+    const second = "2ND - " + finalPlaces[1].name;
+    const third = "3RD - " + finalPlaces[2].name;
+    const fourth = "4TH - " + finalPlaces[3].name;
+
+    ctx.fillStyle = "#000000";
+    ctx.font = "40px Arial";
+
+    ctx.fillText("Final Results", horseSize* 3, height - (horseSize * 3));
+    ctx.fillText(first, horseSize* 2.5, height - (horseSize * 2.5));
+    ctx.fillText(second, horseSize* 2.5, height - (horseSize * 2));
+    ctx.fillText(third, horseSize* 2.5, height -(horseSize * 1.5));
+    ctx.fillText(fourth,horseSize* 2.5, height - (horseSize));
+
+}
