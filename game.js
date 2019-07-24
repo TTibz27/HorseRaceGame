@@ -5,11 +5,11 @@
 let cyclesRemaining = 1000;
 
 
-const horse_image_array = [
-    "./resources/horse_images/final/stonewall_000.png",
-    "./resources/horse_images/final/DEMON_HORZE_666.png",
-    "./resources/horse_images/final/CrotchRocket_93_raw.png",
-    "./resources/horse_images/final/BlackJack_10.png"
+const horse_array = [
+    {img: "./resources/horse_images/final/stonewall_000.png", name: "Stonewall"},
+    {img: "./resources/horse_images/final/DEMON_HORZE_666.png", name: "DEMON HORZE"},
+    {img: "./resources/horse_images/final/CrotchRocket_93_raw.png", name: "CROTCH ROCKET"},
+    {img: "./resources/horse_images/final/BlackJack_10.png", name: "BlackJack"}
 ];
 
 
@@ -18,6 +18,8 @@ const BG_CANVAS = document.getElementById("bgcanvas");
 
 const BG_CTX = BG_CANVAS.getContext("2d");
 const CTX = GAME_CANVAS.getContext("2d");
+
+const COUNTDOWN_START_SECS = 10;
 
 // Size parameters, they will be adjusted to fit the size of the screen
 let WIDTH = GAME_CANVAS.width;
@@ -32,6 +34,13 @@ const horses = [];
 const finalPlaces = [];
 let finishLineScan = 0;
 
+
+// sound effect triggers
+
+const soundEffectTriggers = [Math.floor(Math.random() * (100)) + 700, // should be between 700 and 800
+Math.floor(Math.random() * (100)) + 300, // shuld be between 300 and 400
+//  Math.floor(Math.random() * (100)) + 200, //between 200 - 300
+];
 
 
 //Start game loop
@@ -49,8 +58,6 @@ window.onload = ( ) => {
 
 function gameLoop(){
 
-
-
     switch(gameState){
         case "preRace":
             if (horses.length === 4){
@@ -59,7 +66,7 @@ function gameLoop(){
             }
             break;
         case "countdownStart":
-                startCountdown(5,BG_CTX);
+                startCountdown(COUNTDOWN_START_SECS,BG_CTX);
             break;
         case "running":
             screenReset();
@@ -107,11 +114,49 @@ function runRace(ctx,bg_ctx){
 
     updateHorsePositions();
 
-    // horses[3].x = horse_4_X_sway;
-    // horses[2].x = horse_3_X_sway;
-    // horses[1].x = horse_2_X_sway;
-    // horses[0].x = horse_1_X_sway;
-    //
+    checkForSoundEffects(cyclesRemaining);
+
+
+    //draw shadows under horses
+
+    // ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, anticlockwise]);
+    ctx.fillStyle = "rgba(0,0,0,0.25)";
+    ctx.beginPath();
+    ctx.ellipse(
+        horses[3].x + (horseWidth /2) , // center of horses position
+        HEIGHT - (horseHeight * 1.75),// center of lane
+        (horseWidth * .75) / 2,
+        (horseHeight * .25) / 2,
+        0, 0, Math.PI *2);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.ellipse(
+        horses[2].x + (horseWidth /2) , // center of horses position
+        HEIGHT - (horseHeight * 1.25),// center of lane
+        (horseWidth * .75) / 2,
+        (horseHeight * .25) / 2,
+        0, 0, Math.PI *2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(
+        horses[1].x + (horseWidth /2) , // center of horses position
+        HEIGHT - (horseHeight * .75),// center of lane
+        (horseWidth * .75) / 2,
+        (horseHeight * .25) / 2,
+        0, 0, Math.PI *2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(
+        horses[0].x + (horseWidth /2) , // center of horses position
+        HEIGHT - (horseHeight * .25),// center of lane
+        (horseWidth * .75) / 2,
+        (horseHeight * .25) / 2,
+        0, 0, Math.PI *2);
+    ctx.fill();
+
+
+
 
     // draw horses
     ctx.drawImage(horses[3].image, horses[3].x , (lane_4_height + horse_4_sway) , horseWidth, horseHeight);
@@ -146,6 +191,7 @@ function runRace(ctx,bg_ctx){
        // horses.splice(foundHorseIndex);
         if (finalPlaces.length === 4){
             gameState = "finished";
+            stopGallop();
         }
         finishLineScan -= finishLineSpeed;
     }
@@ -156,10 +202,12 @@ function initHorses() {
     console.log("initHorses");
     for (let i =0; i < 4; i ++ ){
         const horse_image = new Image();
-        horse_image.src = horse_image_array[i]; // todo - change to grab random horse
+        horse_image.src = horse_array[i].img; // todo - change to grab random horse
+        const tempName = horse_array[i].name; //
         horse_image.onload = function() {
             const horse = {
                 image: horse_image,
+                name: tempName,
                 x:0,
                 y:0,
                 currentSpeed: null,
@@ -186,13 +234,15 @@ function screenReset(){
 
 
 function startCountdown(seconds, bg_ctx){
+    playCountdownAudio(seconds);
     if (gameState === "countdownStart" ) {
         gameState = "countdownRunning";
     }
     console.log ("Coundown: " + seconds);
+
     if (seconds > 0) {
         screenReset();
-        drawCountdown(bg_ctx, WIDTH, HEIGHT, horseHeight, seconds);
+        drawCountdown(bg_ctx, WIDTH, HEIGHT, horseHeight, seconds, horses);
         setTimeout (()=>{startCountdown( seconds - 1, bg_ctx)}, 1000);
     }
     else {
@@ -242,6 +292,13 @@ function updateHorsePositions(){
 
 }
 
+function checkForSoundEffects(cycle){
+    for (let i = 0; i < soundEffectTriggers.length; i++) {
+            if (cycle === soundEffectTriggers[i]){
+                playRandomNeigh();
+            }
+    }
+}
 
 swayPatternFunctions = [
     {x:(cycle)=>{ return Math.cos(cycle/3) * 10;}, y:(cycle)=>{return Math.sin(cycle) * 10} },

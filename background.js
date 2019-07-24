@@ -98,15 +98,20 @@ function drawRemainingDistance(ctx, width, horseSize, cyclesRemaining){
     ctx.fillText(remainingString, (width / 2) - 150, (horseSize / 2));
 }
 
-function drawCountdown(ctx, width, height, horseSize, seconds){
+function drawCountdown(ctx, width, height, horseSize, seconds, horses){
 
     console.log("draw countdown");
+    console.log(horses);
     drawRaceBackground(ctx,width,height,horseSize, 0, false);
 
     ctx.fillStyle = "#000000";
     ctx.font = "120px Arial";
 
     ctx.fillText(seconds, (width / 2) - 50, (horseSize ));
+
+    for (let i = 0; i < horses.length; i++) {
+        drawHorseNamesinLane(ctx, horses[i], i, horseSize, height);
+    }
 
 }
 
@@ -115,4 +120,11 @@ function drawFinishLine(ctx, horseSize, height){
     ctx.fillStyle = '#FFFFFF';
     ctx.fillRect(finishLinePosition, height - (2 * horseSize) , 8 , height);
 
+}
+
+function drawHorseNamesinLane(ctx,horse, lane, horseSize, height) {
+    ctx.fillStyle = "#000000";
+    ctx.font = "40px Arial";
+
+    ctx.fillText(horse.name, horseSize, height - (lane * (horseSize / 2 )) -20);
 }
