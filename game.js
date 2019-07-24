@@ -34,6 +34,7 @@ const horses = [];
 const finalPlaces = [];
 let finishLineScan = 0;
 
+let fanfarePlayedFlag = false;
 
 // sound effect triggers
 
@@ -78,6 +79,11 @@ function gameLoop(){
             break;
 
         case "finished":
+            //quick and dirty fanfare check
+            if (!fanfarePlayedFlag){
+                playFanfare();
+                fanfarePlayedFlag = true;
+            }
             CTX.clearRect(0, 0, WIDTH, HEIGHT);
             drawResults(BG_CTX, WIDTH, HEIGHT, horseHeight, finalPlaces);
         default:
@@ -194,9 +200,13 @@ function runRace(ctx,bg_ctx){
         }
        // horses.splice(foundHorseIndex);
         if (finalPlaces.length === 4){
-            gameState = "finished";
+           // gameState = "finished";
             stopGallop();
-            playFanfare();
+
+            // this will actually set the gamestate to finished for every frame, but it shouldnt matter since the gamestate never goes anywhere after finsihed
+           setTimeout(() => {
+               gameState = "finished";
+           }, 2000)
         }
         finishLineScan -= finishLineSpeed;
     }
