@@ -189,9 +189,9 @@ function drawWinnerCloseUp(ctx, width, height, horseSize, finalPlaces){
         ctx.font = "40px Arial";
         ctx.strokeStyle = '#000000';
         ctx.lineWidth = 3;
-        ctx.strokeText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3)-60);
+        ctx.strokeText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3)+60);
         ctx.fillStyle = '#ffffff';
-        ctx.fillText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3) - 60);
+        ctx.fillText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3) + 60);
 
         ctx.lineWidth =1;
         winnerTextCounter --;
