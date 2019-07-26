@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d9dac41b-fc54-4ab0-93ea-73586523c969" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/background.js" beforeDir="false" afterPath="$PROJECT_DIR$/background.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/game.js" beforeDir="false" afterPath="$PROJECT_DIR$/game.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -20,7 +23,7 @@
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+              <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -34,22 +37,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="main.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.css">
+      <file leaf-file-name="game.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="20" column="15" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="15" />
+            <state relative-caret-position="-4603">
+              <caret line="15" column="44" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="44" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="game.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/game.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-742">
-              <caret line="30" column="3" lean-forward="true" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
-            </state>
-          </provider>
+      <file leaf-file-name="a_horse.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/horse_images/final/a_horse.png">
+          <provider selected="true" editor-type-id="images" />
+        </entry>
+      </file>
+      <file leaf-file-name="horse_san_69.png" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/horse_images/final/horse_san_69.png">
+          <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
       <file leaf-file-name="CrotchRocket_93_raw.png" pinned="false" current-in-tab="false">
@@ -72,11 +76,11 @@
           <provider selected="true" editor-type-id="images" />
         </entry>
       </file>
-      <file leaf-file-name="background.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="background.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/background.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+            <state relative-caret-position="2674">
+              <caret line="191" column="84" selection-start-line="191" selection-start-column="84" selection-end-line="191" selection-end-column="84" />
             </state>
           </provider>
         </entry>
@@ -92,12 +96,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>drawcoun</find>
-      <find>screensizead</find>
-      <find>drawrace</find>
-      <find>remainingdistance</find>
-      <find>dra</find>
-      <find>horses</find>
       <find>shadow</find>
       <find>swaypatter</find>
       <find>math.</find>
@@ -112,7 +110,6 @@
       <find>drawracebackground</find>
       <find>inithorses</find>
       <find>horse_Array</find>
-      <find>draw horses</find>
       <find>line</find>
       <find>finished</find>
       <find>drawcountdown</find>
@@ -122,6 +119,13 @@
       <find>finalplaces</find>
       <find>canvas</find>
       <find>rect</find>
+      <find>prerace</find>
+      <find>horses</find>
+      <find>owner</find>
+      <find>inithorse</find>
+      <find>draw</find>
+      <find>final results</find>
+      <find>draw horses</find>
     </findStrings>
     <replaceStrings>
       <replace>cyclesRemaining</replace>
@@ -136,10 +140,10 @@
       <list>
         <option value="$PROJECT_DIR$/resources/background.js" />
         <option value="$PROJECT_DIR$/main.css" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/audio.js" />
-        <option value="$PROJECT_DIR$/background.js" />
         <option value="$PROJECT_DIR$/game.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/background.js" />
       </list>
     </option>
   </component>
@@ -180,14 +184,14 @@
               <item name="HorseRaceGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="HorseRaceGame" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="audio" type="462c0819:PsiDirectoryNode" />
+              <item name="horse_images" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HorseRaceGame" type="b2602c69:ProjectViewProjectNode" />
               <item name="HorseRaceGame" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="audio" type="462c0819:PsiDirectoryNode" />
-              <item name="fanfare" type="462c0819:PsiDirectoryNode" />
+              <item name="horse_images" type="462c0819:PsiDirectoryNode" />
+              <item name="final" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -238,25 +242,25 @@
       <option name="presentableId" value="Default" />
       <updated>1562211281380</updated>
       <workItem from="1562211282530" duration="37792000" />
-      <workItem from="1563080090211" duration="16881000" />
+      <workItem from="1563080090211" duration="22400000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54673000" />
+    <option name="totallyTimeSpent" value="60192000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1367" y="-17" width="1368" height="786" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2108389" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2108389" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32882884" />
+      <window_info anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32882884" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -327,9 +331,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/horse_images/final/BlackJack_10.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/horse_images/final/DEMON_HORZE_666.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -339,13 +340,6 @@
     <entry file="file://$PROJECT_DIR$/resources/horse_images/final/stonewall_000.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/audio.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="319">
@@ -353,17 +347,33 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/background.js">
+    <entry file="file://$PROJECT_DIR$/resources/horse_images/final/BlackJack_10.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="12" column="17" lean-forward="true" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        <state relative-caret-position="210">
+          <caret line="15" column="40" selection-start-line="15" selection-start-column="40" selection-end-line="15" selection-end-column="40" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/resources/horse_images/final/horse_san_69.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-742">
-          <caret line="30" column="3" lean-forward="true" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+        <state relative-caret-position="-4603">
+          <caret line="15" column="44" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/horse_images/final/a_horse.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/background.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2674">
+          <caret line="191" column="84" selection-start-line="191" selection-start-column="84" selection-end-line="191" selection-end-column="84" />
         </state>
       </provider>
     </entry>

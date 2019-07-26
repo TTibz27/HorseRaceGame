@@ -5,6 +5,9 @@ let finishLinePosition = -1000;
 const finishLineSpeed = 7;
 let finishLineDrawn = false;
 
+let showWinnerText = true;
+let winnerTextCounter = 0;
+
 function drawRaceBackground(ctx, width, height, horseSize, cyclesRemaining, isMoving){
 
     // Create gradient
@@ -127,6 +130,8 @@ function drawHorseNamesinLane(ctx,horse, lane, horseSize, height) {
     ctx.font = "40px Arial";
 
     ctx.fillText(horse.name, horseSize, height - (lane * (horseSize / 2 )) -20);
+    ctx.fillText( "Created by: " + horse.owner, horseSize * 5, height - (lane * (horseSize / 2 )) -20);
+
 }
 
 function drawResults(ctx, width, height, horseSize, finalPlaces){
@@ -152,5 +157,47 @@ function drawResults(ctx, width, height, horseSize, finalPlaces){
     ctx.fillText(second, horseSize* 2.5, height - (horseSize * 2));
     ctx.fillText(third, horseSize* 2.5, height -(horseSize * 1.5));
     ctx.fillText(fourth,horseSize* 2.5, height - (horseSize));
+
+}
+function drawWinnerCloseUp(ctx, width, height, horseSize, finalPlaces){
+    drawRaceBackground(ctx,width,height,horseSize, 0, false);
+    // draw rectangle
+    ctx.fillStyle = '#dddddd';
+    ctx.fillRect(horseSize*2, height - (.5 * horseSize) , (horseSize *4), - (horseSize * 3));
+
+    ctx.fillStyle = '#9999FF';
+    ctx.fillRect(horseSize*2 + 3, height - (.5 * horseSize) -3  , (horseSize *4) -6, - (horseSize * 3) + 6 );
+
+    ctx.drawImage(finalPlaces[0].image, horseSize * 2.5  , height - (.5 * horseSize) -5 , (horseSize *3) + 10 , - (horseSize * 3) + 10 );
+
+    //should hopefully flicker every 60 "frames"
+    if (showWinnerText){
+        ctx.font = "40px Arial";
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.strokeText("Winner!!!", horseSize* 3, height - (horseSize * 3));
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText("Winner!!!", horseSize* 3, height - (horseSize * 3));
+
+        ctx.lineWidth =1;
+        winnerTextCounter ++;
+        if (winnerTextCounter > 50){
+            showWinnerText = false;
+        }
+    }
+    else {
+        ctx.font = "40px Arial";
+        ctx.strokeStyle = '#000000';
+        ctx.lineWidth = 3;
+        ctx.strokeText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3)-60);
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3) - 60);
+
+        ctx.lineWidth =1;
+        winnerTextCounter --;
+        if (winnerTextCounter < 1){
+            showWinnerText = true;
+        }
+    }
 
 }
