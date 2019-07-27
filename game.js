@@ -19,6 +19,8 @@ const horse_array = [
     {img: "./resources/horse_images/final/killme112.png", name: "Kill Me" , owner: "Quinn"},
     {img: "./resources/horse_images/final/lil_sebastian.png", name: "Lil' Sebastian" , owner: "Horsey Heaven"},
     {img: "./resources/horse_images/final/stonewall_000.png", name: "Stonewall", owner: "Davie"},
+    {img: "./resources/horse_images/final/nobody_cares.png", name: "Nobody Cares", owner: "Brendan"},
+    {img: "./resources/horse_images/final/Raibow_sparkle.png", name: "Rainbow Sparkle", owner: "Cyndi"},
 
 ];
 
