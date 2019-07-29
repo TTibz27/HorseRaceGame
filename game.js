@@ -31,7 +31,7 @@ const BG_CANVAS = document.getElementById("bgcanvas");
 const BG_CTX = BG_CANVAS.getContext("2d");
 const CTX = GAME_CANVAS.getContext("2d");
 
-const COUNTDOWN_START_SECS = 10;
+const COUNTDOWN_START_SECS = 30;
 
 // Size parameters, they will be adjusted to fit the size of the screen
 let WIDTH = GAME_CANVAS.width;
