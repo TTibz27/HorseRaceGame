@@ -6,10 +6,18 @@ let cyclesRemaining = 1000;
 
 
 const horse_array = [
-    {img: "./resources/horse_images/final/stonewall_000.png", name: "Stonewall"},
-    {img: "./resources/horse_images/final/DEMON_HORZE_666.png", name: "DEMON HORZE"},
-    {img: "./resources/horse_images/final/CrotchRocket_93_raw.png", name: "CROTCH ROCKET"},
-    {img: "./resources/horse_images/final/BlackJack_10.png", name: "BlackJack"}
+    {img: "./resources/horse_images/final/a_horse.png", name: "A Horse" , owner: "Ola"},
+    {img: "./resources/horse_images/final/BlackJack_10.png", name: "BlackJack", owner: "Jenn"},
+    {img: "resources/horse_images/final/char_azNEIGHHble.png", name: "Char AzNIEGHHble" , owner: "Riley"},
+    {img: "./resources/horse_images/final/CrotchRocket_93_raw.png", name: "CROTCH ROCKET", owner: "Ben"},
+    {img: "./resources/horse_images/final/DEMON_HORZE_666.png", name: "DEMON HORZE" , owner: "Ski"},
+    {img: "./resources/horse_images/final/GH.png", name: "GH" , owner: "Skoo"},
+    {img: "./resources/horse_images/final/horse_san_69.png", name: "Horse-San" , owner: "Riley"},
+    {img: "./resources/horse_images/final/lil_sebastian.png", name: "Lil' Sebastian" , owner: "Horsey Heaven"},
+    {img: "./resources/horse_images/final/stonewall_000.png", name: "Stonewall", owner: "Davie"},
+    {img: "./resources/horse_images/final/nobody_cares.png", name: "Nobody Cares", owner: "Brendan"},
+    {img: "./resources/horse_images/final/Raibow_sparkle.png", name: "Rainbow Sparkle", owner: "Cyndi"},
+
 ];
 
 
@@ -19,7 +27,7 @@ const BG_CANVAS = document.getElementById("bgcanvas");
 const BG_CTX = BG_CANVAS.getContext("2d");
 const CTX = GAME_CANVAS.getContext("2d");
 
-const COUNTDOWN_START_SECS = 10;
+const COUNTDOWN_START_SECS = 30;
 
 // Size parameters, they will be adjusted to fit the size of the screen
 let WIDTH = GAME_CANVAS.width;
@@ -83,9 +91,17 @@ function gameLoop(){
             if (!fanfarePlayedFlag){
                 playFanfare();
                 fanfarePlayedFlag = true;
+                setTimeout(()=>{
+                    gameState = "WinnerCloseUp";
+                }, 7 * 1000);
             }
             CTX.clearRect(0, 0, WIDTH, HEIGHT);
             drawResults(BG_CTX, WIDTH, HEIGHT, horseHeight, finalPlaces);
+            break;
+        case "WinnerCloseUp":
+            drawWinnerCloseUp(BG_CTX, WIDTH, HEIGHT, horseHeight, finalPlaces);
+            break;
+
         default:
             break;
     }
@@ -215,14 +231,38 @@ function runRace(ctx,bg_ctx){
 
 function initHorses() {
     console.log("initHorses");
+
+    const temp_horse_array = [];
+
+    //grab random horses
+    while (temp_horse_array.length < 4) {
+        let validPick = true;
+        // pick an index
+        let pick =  Math.floor(Math.random() * horse_array.length);
+        // check if its taken
+        for (let i =0; i < temp_horse_array.length; i ++){
+            if (temp_horse_array[i].name === horse_array[pick].name){ validPick = false;}
+        }
+        //push to temp array
+        if (validPick){
+            temp_horse_array.push(horse_array[pick]);
+        }
+        console.log(temp_horse_array);
+    }
+
+
+    // build horse game play objects
     for (let i =0; i < 4; i ++ ){
+        console.log(i);
         const horse_image = new Image();
-        horse_image.src = horse_array[i].img; // todo - change to grab random horse
-        const tempName = horse_array[i].name; //
+        horse_image.src = temp_horse_array[i].img;
+        const temphorse = temp_horse_array[i];
+
         horse_image.onload = function() {
             const horse = {
                 image: horse_image,
-                name: tempName,
+                name: temphorse.name,
+                owner: temphorse.owner,
                 x:0,
                 y:0,
                 currentSpeed: null,
