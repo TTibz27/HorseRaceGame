@@ -432,7 +432,9 @@ window.addEventListener("keypress", (e)=>{
     }else {
         deletecheck = false
     }
-
+    if (e.key === "s"){
+        console.log(scoreboard);
+    }
     if(e.key ===" "){
         document.body.click();
     }

@@ -26,13 +26,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="27" />
-          <entry key="js" value="2895" />
+          <entry key="js" value="2931" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="27" />
-          <entry key="JavaScript" value="2895" />
+          <entry key="JavaScript" value="2931" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -70,8 +70,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/game.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="423">
-              <caret line="433" column="5" lean-forward="true" selection-start-line="433" selection-start-column="5" selection-end-line="433" selection-end-column="5" />
+            <state relative-caret-position="508">
+              <caret line="435" column="32" selection-start-line="435" selection-start-column="32" selection-end-line="435" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -253,12 +253,12 @@
       <workItem from="1563080090211" duration="25669000" />
       <workItem from="1569291993530" duration="184000" />
       <workItem from="1585964564085" duration="8983000" />
-      <workItem from="1586030603124" duration="10458000" />
+      <workItem from="1586030603124" duration="10795000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="83086000" />
+    <option name="totallyTimeSpent" value="83423000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="0" width="1701" height="1054" extended-state="0" />
@@ -369,8 +369,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/game.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="423">
-          <caret line="433" column="5" lean-forward="true" selection-start-line="433" selection-start-column="5" selection-end-line="433" selection-end-column="5" />
+        <state relative-caret-position="508">
+          <caret line="435" column="32" selection-start-line="435" selection-start-column="32" selection-end-line="435" selection-end-column="32" />
         </state>
       </provider>
     </entry>
