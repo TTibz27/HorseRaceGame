@@ -43,7 +43,7 @@ const gunshots = [
         src:['resources/audio/starter_guns/347591__nicjonesaudio__assault-rifle-1.wav']
     }),
     new Howl({
-        src:['/home/tibz/Dev/HorseRaceGame/resources/audio/starter_guns/362652__trngle__cat-meow(1).wav']
+        src:['resources/audio/starter_guns/362652__trngle__cat-meow(1).wav']
     }),
     new Howl({
         src:['resources/audio/starter_guns/382735__schots__gun-shot.aiff']

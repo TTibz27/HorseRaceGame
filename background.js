@@ -1,12 +1,20 @@
 
 const fencePostGap = 200;
-let fenceOffset = fencePostGap;
-let finishLinePosition = -1000;
 const finishLineSpeed = 7;
+let fenceOffset = fencePostGap;
+
+let finishLinePosition = -1000;
 let finishLineDrawn = false;
 
 let showWinnerText = true;
 let winnerTextCounter = 0;
+
+function initBackground () {
+    finishLinePosition = -1000;
+    finishLineDrawn = false;
+    showWinnerText = true;
+    winnerTextCounter = 0;
+}
 
 function drawRaceBackground(ctx, width, height, horseSize, cyclesRemaining, isMoving){
 
@@ -26,7 +34,7 @@ function drawRaceBackground(ctx, width, height, horseSize, cyclesRemaining, isMo
     ctx.fillRect(0, height - (2 * horseSize) , width, height);
 
     // Draw Distance left, or draw finishline
-    if (isMoving) {
+    if (isMoving && gameState !== "preRace") {
         if (cyclesRemaining > 0) {
             drawRemainingDistance(ctx, width, horseSize, cyclesRemaining);
         }
@@ -38,6 +46,9 @@ function drawRaceBackground(ctx, width, height, horseSize, cyclesRemaining, isMo
             drawFinishLine(ctx, horseSize, height);
             finishLinePosition -= finishLineSpeed;
         }
+    }
+    else {
+
     }
 
     // Draw grass
@@ -170,34 +181,37 @@ function drawWinnerCloseUp(ctx, width, height, horseSize, finalPlaces){
 
     ctx.drawImage(finalPlaces[0].image, horseSize * 2.5  , height - (.5 * horseSize) -5 , (horseSize *3) + 10 , - (horseSize * 3) + 10 );
 
+    ctx.font = "40px Arial";
+    ctx.fillStyle = '#ffffff';
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth =1;
     //should hopefully flicker every 60 "frames"
     if (showWinnerText){
-        ctx.font = "40px Arial";
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 3;
+
         ctx.strokeText("Winner!!!", horseSize* 3, height - (horseSize * 3));
-        ctx.fillStyle = '#ffffff';
         ctx.fillText("Winner!!!", horseSize* 3, height - (horseSize * 3));
 
-        ctx.lineWidth =1;
         winnerTextCounter ++;
         if (winnerTextCounter > 50){
             showWinnerText = false;
         }
     }
     else {
-        ctx.font = "40px Arial";
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 3;
         ctx.strokeText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3)+60);
-        ctx.fillStyle = '#ffffff';
         ctx.fillText(finalPlaces[0].name, horseSize* 3, height - (horseSize * 3) + 60);
 
-        ctx.lineWidth =1;
+
         winnerTextCounter --;
         if (winnerTextCounter < 1){
             showWinnerText = true;
         }
     }
+    // click to continue should always be present
+    ctx.strokeText("Click to start a new game!", horseSize* 3, height - horseSize );
+    ctx.fillText("Click to start a new game!", horseSize* 3, height - horseSize );
+
+}
+function drawStartScreen (ctx, bgctx, width, height, horseSize){
+ drawRaceBackground(ctx, width, height, horseSize, 999999, true);
 
 }

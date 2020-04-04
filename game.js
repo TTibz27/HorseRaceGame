@@ -2,27 +2,9 @@
  * Created by tomdt on 6/23/2017.
  */
 
-let cyclesRemaining = 1000;
 
 
-const horse_array = [
-    {img: "./resources/horse_images/final/a_horse.png", name: "A Horse" , owner: "Ola"},
-    {img: "./resources/horse_images/final/BlackJack_10.png", name: "BlackJack", owner: "Jenn"},
-    {img: "resources/horse_images/final/char_azNEIGHHble.png", name: "Char AzNIEGHHble" , owner: "Riley"},
-    {img: "./resources/horse_images/final/CrotchRocket_93_raw.png", name: "CROTCH ROCKET", owner: "Ben"},
-    {img: "./resources/horse_images/final/DEMON_HORZE_666.png", name: "DEMON HORZE" , owner: "Ski"},
-    {img: "./resources/horse_images/final/dickzilla.png", name: "DickZilla" , owner: "Alex"},
-    {img: "./resources/horse_images/final/f-TheHaters.png", name: "Fuck the Haters" , owner: "Carlos"},
-    {img: "./resources/horse_images/final/GH.png", name: "GH" , owner: "Skoo"},
-    {img: "./resources/horse_images/final/Horse_cock.png", name: "Horse Cock" , owner: "Ben"},
-    {img: "./resources/horse_images/final/horse_san_69.png", name: "Horse-San" , owner: "Riley"},
-    {img: "./resources/horse_images/final/killme112.png", name: "Kill Me" , owner: "Quinn"},
-    {img: "./resources/horse_images/final/lil_sebastian.png", name: "Lil' Sebastian" , owner: "Horsey Heaven"},
-    {img: "./resources/horse_images/final/stonewall_000.png", name: "Stonewall", owner: "Davie"},
-    {img: "./resources/horse_images/final/nobody_cares.png", name: "Nobody Cares", owner: "Brendan"},
-    {img: "./resources/horse_images/final/Raibow_sparkle.png", name: "Rainbow Sparkle", owner: "Cyndi"},
 
-];
 
 
 const GAME_CANVAS = document.getElementById("gamecanvas");
@@ -31,7 +13,7 @@ const BG_CANVAS = document.getElementById("bgcanvas");
 const BG_CTX = BG_CANVAS.getContext("2d");
 const CTX = GAME_CANVAS.getContext("2d");
 
-const COUNTDOWN_START_SECS = 30;
+const COUNTDOWN_START_SECS = 25;
 
 // Size parameters, they will be adjusted to fit the size of the screen
 let WIDTH = GAME_CANVAS.width;
@@ -41,41 +23,63 @@ let horseWidth = WIDTH / 8;
 let horseHeight = WIDTH / 8;
 
 // state tracking
+let cyclesRemaining = 1000;
 let gameState = "preRace";  // this should probably be an enum later
-const horses = [];
-const finalPlaces = [];
+let horses = [];
+let finalPlaces = [];
 let finishLineScan = 0;
-
 let fanfarePlayedFlag = false;
+let placeCount = 1;
+
+//UI event handlers
+let clickHandlerLoaded = false;
 
 // sound effect triggers
-
 const soundEffectTriggers = [Math.floor(Math.random() * (100)) + 700, // should be between 700 and 800
-Math.floor(Math.random() * (100)) + 300, // shuld be between 300 and 400
+Math.floor(Math.random() * (100)) + 300, // should be between 300 and 400
 //  Math.floor(Math.random() * (100)) + 200, //between 200 - 300
 ];
 
 
 //Start game loop
 window.onload = ( ) => {
-     //  initBackground();
-
-
-    initHorses();
-
-    // The game loop should be a setInterval that way the screen size can be adjusted.
-    // I think its a bit easier to keep track of the state from one loop  vs function callbacks
+    initGame();
+    // The game loop should be a setInterval that way the screen size can be adjusted
     setInterval(gameLoop, 20); //  a touch <60 FPS
 
 };
+
+function initGame(){
+     cyclesRemaining = 1000;
+     gameState = "preRace";  // this should probably be an enum later
+     horses = [];
+     finalPlaces = [];
+     finishLineScan = 0;
+
+     fanfarePlayedFlag = false;
+     clickHandlerLoaded = false;
+
+     initBackground();
+     initHorses();
+}
 
 function gameLoop(){
 
     switch(gameState){
         case "preRace":
+            screenReset();
+            drawStartScreen(CTX ,BG_CTX, WIDTH, HEIGHT, horseHeight);
             if (horses.length === 4){
-                gameState = 'countdownStart';
-                console.log ("Horses loaded, transitioning to countdown");
+                if (!clickHandlerLoaded){
+                let handler = function (event) {
+                        gameState = 'countdownStart';
+                        console.log ("Horses loaded, transitioning to countdown");
+                        removeEventListener('click', handler, false);
+                        clickHandlerLoaded = false;
+                    } ;
+                        window.addEventListener("click",handler,false);
+                    clickHandlerLoaded = true;
+                }
             }
             break;
         case "countdownStart":
@@ -104,6 +108,17 @@ function gameLoop(){
             break;
         case "WinnerCloseUp":
             drawWinnerCloseUp(BG_CTX, WIDTH, HEIGHT, horseHeight, finalPlaces);
+            if (!clickHandlerLoaded){
+                let handler = function () {
+                    console.log("Restarting game....")
+                    initGame();
+                    gameState = "preRace"
+                    removeEventListener('click', handler, false);
+                    clickHandlerLoaded = false;
+                };
+                clickHandlerLoaded = true;
+                addEventListener('click', handler, false);
+            }
             break;
 
         default:
@@ -114,18 +129,12 @@ function gameLoop(){
 function runRace(ctx,bg_ctx){
 
     cyclesRemaining --;
-
     //handle race background
     drawRaceBackground(bg_ctx, WIDTH, HEIGHT, horseHeight, cyclesRemaining, true);
 
-
-    //Figure out horse postitions
-    const x = WIDTH / 2;
-    const y = HEIGHT / 2;
-
-    const lane_1_height = HEIGHT - (horseHeight * 1.25);
     //todo- change these sway varibles to be "trot" objects, or something, at put it in a horse object, so we can reuse these better
     // horse 1 & 2 are hilarious, horse 3&4 are more normal paced
+    const lane_1_height = HEIGHT - (horseHeight * 1.25);
     const horse_1_sway = Math.sin(cyclesRemaining) * 10;
 
 
@@ -140,6 +149,10 @@ function runRace(ctx,bg_ctx){
     const lane_4_height = HEIGHT - (horseHeight * 2.75);
     const horse_4_sway = Math.cos(cyclesRemaining/2) * 10;
 
+    horses[0].y = (lane_1_height + horse_1_sway);
+    horses[1].y = (lane_2_height + horse_2_sway);
+    horses[2].y = (lane_3_height + horse_3_sway);
+    horses[3].y = (lane_4_height + horse_4_sway);
 
 
     updateHorsePositions();
@@ -148,51 +161,13 @@ function runRace(ctx,bg_ctx){
 
 
     //draw shadows under horses
+    fg_drawShadows(ctx, horses, horseHeight, horseWidth);
 
-    // ctx.ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle [, anticlockwise]);
-    ctx.fillStyle = "rgba(0,0,0,0.25)";
-    ctx.beginPath();
-    ctx.ellipse(
-        horses[3].x + (horseWidth /2) , // center of horses position
-        HEIGHT - (horseHeight * 1.75),// center of lane
-        (horseWidth * .75) / 2,
-        (horseHeight * .25) / 2,
-        0, 0, Math.PI *2);
-    ctx.fill();
-
-    ctx.beginPath();
-    ctx.ellipse(
-        horses[2].x + (horseWidth /2) , // center of horses position
-        HEIGHT - (horseHeight * 1.25),// center of lane
-        (horseWidth * .75) / 2,
-        (horseHeight * .25) / 2,
-        0, 0, Math.PI *2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(
-        horses[1].x + (horseWidth /2) , // center of horses position
-        HEIGHT - (horseHeight * .75),// center of lane
-        (horseWidth * .75) / 2,
-        (horseHeight * .25) / 2,
-        0, 0, Math.PI *2);
-    ctx.fill();
-    ctx.beginPath();
-    ctx.ellipse(
-        horses[0].x + (horseWidth /2) , // center of horses position
-        HEIGHT - (horseHeight * .25),// center of lane
-        (horseWidth * .75) / 2,
-        (horseHeight * .25) / 2,
-        0, 0, Math.PI *2);
-    ctx.fill();
-
-
-
-
-    // draw horses
-    ctx.drawImage(horses[3].image, horses[3].x , (lane_4_height + horse_4_sway) , horseWidth, horseHeight);
-    ctx.drawImage(horses[2].image, horses[2].x , (lane_3_height + horse_3_sway) , horseWidth, horseHeight);
-    ctx.drawImage(horses[1].image, horses[1].x , (lane_2_height + horse_2_sway) , horseWidth, horseHeight);
-    ctx.drawImage(horses[0].image, horses[0].x , (lane_1_height + horse_1_sway) , horseWidth, horseHeight);
+    // draw horses  - order is important!!!
+    ctx.drawImage(horses[3].image, horses[3].x ,  horses[3].y , horseWidth, horseHeight);
+    ctx.drawImage(horses[2].image, horses[2].x ,  horses[2].y , horseWidth, horseHeight);
+    ctx.drawImage(horses[1].image, horses[1].x ,  horses[1].y  , horseWidth, horseHeight);
+    ctx.drawImage(horses[0].image, horses[0].x , horses[0].y , horseWidth, horseHeight);
 
     if (cyclesRemaining <= 0 ){
         if (gameState === 'running'){
@@ -202,8 +177,6 @@ function runRace(ctx,bg_ctx){
         }
 
         let foundHorseIndex = null;
-
-        console.log(finishLineScan);
 
         for (let i = 0; i < horses.length; i++) {
             //horse has finished
@@ -215,15 +188,13 @@ function runRace(ctx,bg_ctx){
         }
         if(foundHorseIndex != null){
             finalPlaces.push(horses[foundHorseIndex]);
-            horses[foundHorseIndex].place = 1;
+            horses[foundHorseIndex].place = placeCount ++;
             console.log("Horse Finished - " + foundHorseIndex);
         }
        // horses.splice(foundHorseIndex);
         if (finalPlaces.length === 4){
-           // gameState = "finished";
             stopGallop();
-
-            // this will actually set the gamestate to finished for every frame, but it shouldnt matter since the gamestate never goes anywhere after finsihed
+            // give it a bit of time before setting gameState to finished
            setTimeout(() => {
                gameState = "finished";
            }, 2000)
@@ -233,8 +204,12 @@ function runRace(ctx,bg_ctx){
 }
 
 
-function initHorses() {
+function initHorses(prevWinner) {
     console.log("initHorses");
+
+    if (prevWinner){
+
+    }
 
     const temp_horse_array = [];
 
