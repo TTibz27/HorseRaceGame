@@ -4,9 +4,6 @@
 
 
 
-
-
-
 const GAME_CANVAS = document.getElementById("gamecanvas");
 const BG_CANVAS = document.getElementById("bgcanvas");
 
@@ -30,6 +27,9 @@ let finalPlaces = [];
 let finishLineScan = 0;
 let fanfarePlayedFlag = false;
 let placeCount = 1;
+let roundScored = false;
+
+let scoreboard = JSON.parse(window.localStorage.getItem("cd_scoreboard")) || {};
 
 //UI event handlers
 let clickHandlerLoaded = false;
@@ -43,6 +43,8 @@ Math.floor(Math.random() * (100)) + 300, // should be between 300 and 400
 
 //Start game loop
 window.onload = ( ) => {
+    console.log("-- Scoreboard Check --");
+    console.log(scoreboard);
     initGame();
     // The game loop should be a setInterval that way the screen size can be adjusted
     setInterval(gameLoop, 20); //  a touch <60 FPS
@@ -58,6 +60,7 @@ function initGame(){
 
      fanfarePlayedFlag = false;
      clickHandlerLoaded = false;
+     roundScored = false;
 
      initBackground();
      initHorses();
@@ -193,6 +196,11 @@ function runRace(ctx,bg_ctx){
         }
        // horses.splice(foundHorseIndex);
         if (finalPlaces.length === 4){
+            if (!roundScored){
+                addWinnerToScoreboard(finalPlaces);
+                getAlltimeWinnerFromScoreboard();
+                roundScored = true;
+            }
             stopGallop();
             // give it a bit of time before setting gameState to finished
            setTimeout(() => {
@@ -340,3 +348,93 @@ swayPatternFunctions = [
     {x:(cycle)=>{ return Math.cos(cycle/4) * 10;}, y:(cycle)=>{ return Math.sin(cycle/2) * 10}},
     {x:(cycle)=>{ return Math.sin(cycle/4) * 10;}, y:(cycle)=>{ return Math.cos(cycle/2) * 10}}
     ];
+
+
+function addWinnerToScoreboard(finalPlaceArray){
+
+        let makeFirst = true;
+        let makeSecond = true;
+        let makeThird = true;
+        let makeFourth = true;
+
+        // check for existing horses in scoreboard
+        for( const horseScoreListing in scoreboard){
+            if (horseScoreListing === finalPlaceArray[0].name){
+                makeFirst = false;
+                scoreboard[horseScoreListing].totalRaces ++;
+                scoreboard[horseScoreListing].firstPlaces ++;
+            } else  if (horseScoreListing === finalPlaceArray[1].name){
+                makeSecond = false;
+                scoreboard[horseScoreListing].totalRaces ++;
+                scoreboard[horseScoreListing].secondPlaces ++;
+
+            } else if (horseScoreListing === finalPlaceArray[2].name){
+                makeThird = false;
+                scoreboard[horseScoreListing].totalRaces ++;
+                scoreboard[horseScoreListing].thirdPlaces ++;
+
+            } else if (horseScoreListing === finalPlaceArray[3].name){
+                makeFourth = false;
+                scoreboard[horseScoreListing].totalRaces ++;
+                scoreboard[horseScoreListing].forthPlaces ++;
+            }
+        }
+        //
+        if (makeFirst){
+            scoreboard[finalPlaceArray[0].name] = {totalRaces: 1, firstPlaces: 1, secondPlaces: 0, thirdPlaces: 0, forthPlaces:0}
+        }
+        if (makeSecond){
+            scoreboard[finalPlaceArray[1].name] = {totalRaces: 1, firstPlaces: 0, secondPlaces: 1, thirdPlaces: 0, forthPlaces:0}
+        }
+        if (makeThird){
+            scoreboard[finalPlaceArray[2].name] = {totalRaces: 1, firstPlaces: 0, secondPlaces: 0, thirdPlaces: 1, forthPlaces:0}
+        }
+        if (makeFourth){
+            scoreboard[finalPlaceArray[3].name] = {totalRaces: 1, firstPlaces: 0, secondPlaces: 0, thirdPlaces: 0, forthPlaces:1}
+        }
+
+        // Save Scoreboard to local variable again.
+    window.localStorage.setItem("cd_scoreboard", JSON.stringify(scoreboard));
+}
+
+function getAlltimeWinnerFromScoreboard(){
+    console.log(scoreboard);
+    let mostwins = 0;
+    let winningHorse = "";
+    for( const horseScoreListing in scoreboard){
+        if (scoreboard[horseScoreListing].firstPlaces > mostwins) {
+            mostwins = scoreboard[horseScoreListing].firstPlaces;
+            winningHorse = horseScoreListing;
+        }
+    }
+    if (mostwins > 0 ){
+        console.log("The winningest horse of all time is " +winningHorse+ " with a total of " +mostwins+ " wins");
+    }
+}
+
+function deleteScoreboard() {
+    scoreboard = {};
+    window.localStorage.setItem("cd_scoreboard", JSON.stringify(scoreboard));
+}
+
+let deletecheck = false;
+window.addEventListener("keypress", (e)=>{
+    if (e.key === 'd'){
+        if (deletecheck === false){
+            deletecheck = true;
+            console.log("Press again to delete scoreboard, press any other key to cancel");
+        }
+        else {
+            console.log("deleting scoreboard");
+            deleteScoreboard()
+        }
+
+    }else {
+        deletecheck = false
+    }
+
+    if(e.key ===" "){
+        document.body.click();
+    }
+
+},false);
